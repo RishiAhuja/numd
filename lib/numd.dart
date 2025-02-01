@@ -146,7 +146,6 @@ class LinearAlgebra {
   }
 }
 
-
 /* Rather than directly concatenating strings 
 (which creates new string objects each time), 
 the code uses a StringBuffer. This is a more 
