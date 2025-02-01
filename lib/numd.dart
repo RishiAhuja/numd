@@ -123,26 +123,27 @@ class NDArray<T extends num> {
 }
 
 class LinearAlgebra {
-  // Matrix multiplication
-  static NDArray matmul(NDArray a, NDArray b) {
+  static NDArray<T> matmul<T extends num>(NDArray<T> a, NDArray<T> b) {
     if (a.cols != b.rows) {
       throw ArgumentError(
           'Matrix dimensions mismatch: ${a.shape} and ${b.shape}');
     }
-    List<List> result = List.generate(
+
+    List<List<T>> result = List.generate(
       a.rows,
-      (i) => List.generate(
+      (i) => List<T>.generate(
         b.cols,
         (j) {
-          dynamic sum = 0;
+          T sum = 0 as T;
           for (var k = 0; k < a.cols; k++) {
-            sum += a._nestedLists[i][k] * b._nestedLists[k][j];
+            sum = (sum + a.at(i, k) * b.at(k, j)) as T;
           }
           return sum;
         },
       ),
     );
-    return NDArray.init(result as List<List<num>>);
+
+    return NDArray<T>.init(result);
   }
 }
 
