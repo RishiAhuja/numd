@@ -1,7 +1,8 @@
 name: numd
 description: A rudimentary numerical computing library for Dart, inspired by NumPy
-version: 1.0.1
+version: 1.0.2
 repository: https://github.com/RishiAhuja/numd.git
+example: example/lib/example.dart
 
 environment:
   sdk: ^3.6.0

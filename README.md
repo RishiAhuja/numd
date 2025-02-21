@@ -114,6 +114,16 @@ The library provides runtime type checking methods:
    - Supports custom range through min and max parameters
    - Optional type parameter
 
+5. **NDArray.binary(List<int> dimensions, bool Function(int i, int j) condition, {Type type = double})**
+   - Creates a binary NDArray (0s and 1s) based on a condition function
+   - Condition function determines placement of 1s
+   - Optional type parameter
+
+6. **NDArray.binaryRand(List<int> dimensions, {Type type = double})**
+   - Creates a random binary NDArray
+   - Randomly places 0s and 1s
+   - Optional type parameter
+
 ### Operators
 
 The library provides operator overloading for basic arithmetic operations:
@@ -170,6 +180,53 @@ var randomInts = NDArray.random([3, 3], min: 1, max: 100, type: int);
 
 // Create 2x2 random double array
 var randomDoubles = NDArray.random([2, 2], min: 0, max: 1);
+```
+
+### Binary Array Generation
+
+```dart
+// Create a diagonal binary matrix
+var diagonal = NDArray<int>.binary([3, 3], (i, j) => i == j);
+print(diagonal);
+// Output:
+// [ 
+//  [1, 0, 0],
+//  [0, 1, 0],
+//  [0, 0, 1]
+// ]
+
+// Create a random binary matrix
+var randomBinary = NDArray<int>.binaryRand([2, 2]);
+print(randomBinary);
+// Possible output:
+// [ 
+//  [1, 0],
+//  [0, 1]
+// ]
+```
+
+## Example
+
+```dart
+import 'package:numd/numd.dart';
+
+void main() {
+  // Create a 2x3 array
+  var array = NDArray.init([
+    [1, 2, 3],
+    [4, 5, 6]
+  ]);
+  print(array);
+
+  // Create binary array
+  var diagonal = NDArray<int>.binary([3, 3], (i, j) => i == j);
+  print(diagonal);
+
+  // Basic operations
+  var a = NDArray.ones([2, 2]);
+  var b = NDArray.zeros([2, 2]);
+  print(a + b);
+}
 ```
 
 ## Performance Considerations

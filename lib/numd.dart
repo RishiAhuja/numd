@@ -120,6 +120,35 @@ class NDArray<T extends num> {
             (j) => this._nestedLists[i][j] / other._nestedLists[i][j] as T));
     return NDArray.init(nestedLists);
   }
+
+  factory NDArray.binary(
+      List<int> dimensions, bool Function(int i, int j) condition,
+      {Type type = double}) {
+    return NDArray.init(
+      List.generate(
+        dimensions[0],
+        (i) => List.generate(
+          dimensions[1],
+          (j) => (condition(i, j) ? 1 : 0) as T,
+        ),
+      ),
+      type: type,
+    );
+  }
+
+  factory NDArray.binaryRand(List<int> dimensions, {Type type = double}) {
+    final random = Random();
+    return NDArray.init(
+      List.generate(
+        dimensions[0],
+        (i) => List.generate(
+          dimensions[1],
+          (j) => (random.nextBool() ? 1 : 0) as T,
+        ),
+      ),
+      type: type,
+    );
+  }
 }
 
 class LinearAlgebra {
