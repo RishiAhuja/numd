@@ -1,5 +1,5 @@
 
-## 1.0.3
+## 1.0.2
 * Added binary array support with NDArray.binary constructor
 * Added random binary array generation with NDArray.binaryRand
 * Improved example documentation
