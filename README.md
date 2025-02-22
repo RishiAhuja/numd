@@ -147,6 +147,7 @@ The library provides operator overloading for basic arithmetic operations:
 - **Subtraction (-)**: Element-wise subtraction
 - **Multiplication (*)**: Element-wise multiplication
 - **Division (/)**: Element-wise division
+- Array access: `[]`, `[]=`
 
 All operators verify shape compatibility and throw ArgumentError if shapes don't match.
 

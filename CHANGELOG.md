@@ -1,4 +1,8 @@
 
+## 1.0.4
+- Added operator overloading for array access (`[]` and `[]=`)
+- Added comprehensive documentation for `[]` and `[]=` operators
+
 ## 1.0.3
 - Added `NDArray.copy()` constructor for deep copying arrays
 - Added comprehensive documentation for copy operations
