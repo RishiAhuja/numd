@@ -18,7 +18,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  numd: ^1.0.0
+  numd: ^1.0.3
 ```
 
 Then run:
@@ -35,6 +35,7 @@ dart pub get
 - Matrix multiplication support through LinearAlgebra utility class
 - Type-safe operations with compile-time checking
 - Intuitive API design following Dart conventions
+- Copy constructor for deep copying arrays
 
 ## Getting Started
 
@@ -42,25 +43,32 @@ First, import the library:
 
 ```dart
 import 'package:numd/numd.dart';
-```
 
-Create your first NDArray:
+void main() {
+  // Basic array creation
+  var array = NDArray.init([
+    [1, 2, 3],
+    [4, 5, 6]
+  ]);
+  print(array);
 
-```dart
-// Create a 2x3 array filled with zeros
-var zeros = NDArray.zeros([2, 3]);
+  // Binary array with diagonal ones
+  var diagonal = NDArray<int>.binary([3, 3], (i, j) => i == j);
+  print(diagonal);
 
-// Create a 3x3 array filled with ones
-var ones = NDArray.ones([3, 3]);
+  // Random binary array
+  var randomBinary = NDArray<int>.binaryRand([2, 2]);
+  print(randomBinary);
 
-// Create a 2x2 array with random values between 0 and 1
-var random = NDArray.random([2, 2]);
+  // Array operations
+  var a = NDArray.ones([2, 2]);
+  var b = NDArray.zeros([2, 2]);
+  print(a + b);
 
-// Create a custom array
-var custom = NDArray.init([
-  [1, 2, 3],
-  [4, 5, 6]
-]);
+  // Copy constructor
+  var copy = NDArray.copy(array);
+  print('Copy: $copy');
+}
 ```
 
 ## Core Concepts
@@ -97,25 +105,25 @@ The library provides runtime type checking methods:
 ### Constructors
 
 1. **NDArray.init(List<List<T>> nestedLists, {Type type = double})**
-   - Creates an NDArray from a nested list structure
+- Creates an NDArray from a nested list structure
    - Optional type parameter defaults to double
 
 2. **NDArray.zeros(List<int> dimensions, {Type type = double})**
-   - Creates an NDArray filled with zeros
+- Creates an NDArray filled with zeros
    - Dimensions specify the shape
    - Optional type parameter
 
 3. **NDArray.ones(List<int> dimensions, {Type type = double})**
-   - Creates an NDArray filled with ones
+- Creates an NDArray filled with ones
    - Similar parameters to zeros constructor
 
 4. **NDArray.random(List<int> dimensions, {double min = 0, double max = 1, Type type = double})**
-   - Creates an NDArray filled with random values
+- Creates an NDArray filled with random values
    - Supports custom range through min and max parameters
    - Optional type parameter
 
 5. **NDArray.binary(List<int> dimensions, bool Function(int i, int j) condition, {Type type = double})**
-   - Creates a binary NDArray (0s and 1s) based on a condition function
+- Creates a binary NDArray (0s and 1s) based on a condition function
    - Condition function determines placement of 1s
    - Optional type parameter
 
@@ -123,6 +131,13 @@ The library provides runtime type checking methods:
    - Creates a random binary NDArray
    - Randomly places 0s and 1s
    - Optional type parameter
+
+7. **NDArray.copy(NDArray<T> other)**
+   - Creates a deep copy of an existing NDArray
+   - Maintains type safety with generic type T
+   - Copies both shape and data
+   - Returns new independent NDArray instance
+
 
 ### Operators
 
@@ -154,7 +169,58 @@ The `LinearAlgebra` class provides additional matrix operations:
    - Verifies matrix dimension compatibility
    - Returns new NDArray with result
 
-## Examples
+## Ex
+### Basic Array Operations
+
+```dart
+// Create arrays
+var a = NDArray.init([[1, 2], [3, 4]]);
+var b = NDArray.init([[5, 6], [7, 8]]);
+
+// Addition
+var sum = a + b;
+print(sum.toString());
+
+// Matrix multiplication
+var product = LinearAlgebra.matmul(a, b);
+print(product.toString());
+```
+
+### Random Array Generation
+
+```dart
+// Create 3x3 random integer array
+var randomInts = NDArray.random([3, 3], min: 1, max: 100, type: int);
+
+// Create 2x2 random double array
+var randomDoubles = NDArray.random([2, 2], min: 0, max: 1);
+```
+
+### Binary Array Generation
+
+```dart
+// Create a diagonal binary matrix
+var diagonal = NDArray<int>.binary([3, 3], (i, j) => i == j);
+print(diagonal);
+// Output:
+// [ 
+//  [1, 0, 0],
+//  [0, 1, 0],
+//  [0, 0, 1]
+// ]
+
+// Create a random binary matrix
+var randomBinary = NDArray<int>.binaryRand([2, 2]);
+print(randomBinary);
+// Possible output:
+// [ 
+//  [1, 0],
+//  [0, 1]
+// ]
+```
+
+## Example
+amples
 
 ### Basic Array Operations
 
@@ -226,6 +292,10 @@ void main() {
   var a = NDArray.ones([2, 2]);
   var b = NDArray.zeros([2, 2]);
   print(a + b);
+
+  // Copy constructor
+  var copy = NDArray.copy(array);
+  print('Copy: $copy');
 }
 ```
 

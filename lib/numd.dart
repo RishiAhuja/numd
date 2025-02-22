@@ -68,6 +68,14 @@ class NDArray<T extends num> {
     }
   }
 
+  NDArray.copy(NDArray<T> other) {
+    shape = List<int>.from(other.shape);
+    _nestedLists = List<List<T>>.generate(
+      other.shape[0],
+      (i) => List<T>.from(other._nestedLists[i]),
+    );
+  }
+
   // Operator overloads
   NDArray<T> operator +(NDArray<T> other) {
     if (this.shape.length != other.shape.length ||
