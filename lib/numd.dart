@@ -76,6 +76,24 @@ class NDArray<T extends num> {
     );
   }
 
+  List<T> operator [](int i) {
+    if (i < 0 || i >= shape[0]) {
+      throw RangeError('Index $i out of range for shape $shape');
+    }
+    return _nestedLists[i];
+  }
+
+  void operator []=(int i, List<T> row) {
+    if (i < 0 || i >= shape[0]) {
+      throw RangeError('Index $i out of range for shape $shape');
+    }
+    if (row.length != shape[1]) {
+      throw ArgumentError(
+          'Row length ${row.length} does not match shape ${shape[1]}');
+    }
+    _nestedLists[i] = List<T>.from(row);
+  }
+
   // Operator overloads
   NDArray<T> operator +(NDArray<T> other) {
     if (this.shape.length != other.shape.length ||
